@@ -4,9 +4,11 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { featuredListings } from "@/lib/mockData";
+import ImageGallery from "@/components/ImageGallery";
+import SimilarListings from "@/components/SimilarListings";
 import {
   MapPin, Star, BadgeCheck, Heart, Share2, Flag,
-  MessageCircle, Shield, ArrowLeft, Clock,
+  MessageCircle, Shield, ArrowLeft, Clock, Eye, Bookmark,
 } from "lucide-react";
 
 const ListingDetail = () => {
@@ -19,13 +21,18 @@ const ListingDetail = () => {
         <Header />
         <div className="container py-20 text-center">
           <p className="text-lg text-muted-foreground">Listing not found.</p>
-          <Link to="/browse">
-            <Button className="mt-4">Back to Browse</Button>
-          </Link>
+          <Link to="/browse"><Button className="mt-4">Back to Browse</Button></Link>
         </div>
       </div>
     );
   }
+
+  // Generate gallery images from the main image
+  const galleryImages = [
+    listing.image,
+    listing.image.replace("w=600", "w=601"),
+    listing.image.replace("w=600", "w=602"),
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -36,16 +43,20 @@ const ListingDetail = () => {
         </Link>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* Image */}
+          {/* Image Gallery */}
           <div className="lg:col-span-2">
-            <div className="overflow-hidden rounded-xl border border-border">
-              <img src={listing.image} alt={listing.title} className="aspect-video w-full object-cover" />
+            <ImageGallery images={galleryImages} alt={listing.title} />
+
+            {/* Stats */}
+            <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> 247 views</span>
+              <span className="flex items-center gap-1"><Bookmark className="h-3 w-3" /> 18 saves</span>
+              <span className="flex items-center gap-1"><MessageCircle className="h-3 w-3" /> 5 messages</span>
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Price & Actions */}
             <div className="rounded-xl border border-border bg-card p-6">
               <p className="font-heading text-3xl font-bold text-foreground">
                 {listing.price === 0 ? "Free" : `$${listing.price.toLocaleString()}`}
@@ -88,12 +99,12 @@ const ListingDetail = () => {
             {/* Seller */}
             <div className="rounded-xl border border-border bg-card p-6">
               <h3 className="mb-4 font-heading text-sm font-semibold text-foreground">Seller</h3>
-              <div className="flex items-center gap-3">
+              <Link to={`/profile/${listing.id}`} className="flex items-center gap-3 group">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary">
                   {listing.seller.name[0]}
                 </div>
                 <div>
-                  <div className="flex items-center gap-1.5 font-body text-sm font-medium text-foreground">
+                  <div className="flex items-center gap-1.5 font-body text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                     {listing.seller.name}
                     {listing.seller.verified && <BadgeCheck className="h-4 w-4 text-primary" />}
                   </div>
@@ -101,13 +112,21 @@ const ListingDetail = () => {
                     <Star className="h-3 w-3 fill-current" /> {listing.seller.rating} rating
                   </div>
                 </div>
-              </div>
+              </Link>
               {listing.seller.verified && (
                 <div className="mt-4 flex items-center gap-2 rounded-lg bg-primary/5 p-3 text-xs text-primary">
                   <Shield className="h-4 w-4" />
                   <span className="font-body">Identity verified · Trusted seller</span>
                 </div>
               )}
+            </div>
+
+            {/* Safety */}
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-xs text-muted-foreground">
+              <div className="flex items-center gap-2 mb-2 text-primary font-semibold">
+                <Shield className="h-4 w-4" /> Buyer Protection
+              </div>
+              <p className="font-body">Use Trustly Escrow for secure payments. Never share personal info outside the platform.</p>
             </div>
           </div>
 
@@ -117,6 +136,9 @@ const ListingDetail = () => {
               <h2 className="mb-4 font-heading text-lg font-semibold text-foreground">Description</h2>
               <p className="text-sm leading-relaxed text-muted-foreground font-body">{listing.description}</p>
             </div>
+
+            {/* People Also Viewed */}
+            <SimilarListings currentId={listing.id} category={listing.category} />
           </div>
         </div>
       </main>

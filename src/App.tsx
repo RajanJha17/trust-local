@@ -61,6 +61,17 @@ import BusinessProfile from "./pages/seller/BusinessProfile";
 // Admin
 import AdminDashboard from "./pages/admin/AdminDashboard";
 
+// Growth
+import Referrals from "./pages/growth/Referrals";
+import Blog from "./pages/growth/Blog";
+import Careers from "./pages/growth/Careers";
+
+// Safety
+import SafetyCenter from "./pages/safety/SafetyCenter";
+
+// Smart / AI
+import AIFeatures from "./pages/smart/AIFeatures";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -127,6 +138,18 @@ const App = () => (
           {/* Admin */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/*" element={<AdminDashboard />} />
+          
+          {/* Growth */}
+          <Route path="/referrals" element={<Referrals />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/careers" element={<Careers />} />
+          
+          {/* Safety */}
+          <Route path="/safety-center" element={<SafetyCenter />} />
+          
+          {/* Smart / AI */}
+          <Route path="/recommended" element={<AIFeatures />} />
+          <Route path="/price-suggestion" element={<AIFeatures />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>

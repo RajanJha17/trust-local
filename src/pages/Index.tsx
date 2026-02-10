@@ -3,6 +3,8 @@ import HeroSection from "@/components/HeroSection";
 import StatsBar from "@/components/StatsBar";
 import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedListings from "@/components/FeaturedListings";
+import DealOfTheDay from "@/components/DealOfTheDay";
+import TrendingSearches from "@/components/TrendingSearches";
 import TrustBanner from "@/components/TrustBanner";
 import Footer from "@/components/Footer";
 
@@ -14,7 +16,9 @@ const Index = () => {
         <HeroSection />
         <StatsBar />
         <CategoryGrid />
+        <DealOfTheDay />
         <FeaturedListings />
+        <TrendingSearches />
         <TrustBanner />
       </main>
       <Footer />
